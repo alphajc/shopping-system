@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  redis:
+    image: redis
+    volumes:
+    - ./assets/data/redis:/data
+    ports:
+    - 127.0.0.1:6379:6379
+  mysql:
+    image: mysql:5.7.33
+    environment:
+    - MYSQL_ROOT_PASSWORD=chen1399
+    - MYSQL_USER=lucid
+    - MYSQL_PASSWORD=qwer1234
+    volumes:
+    - ./assets/data/mysql:/var/lib/mysql
+    ports:
+    - 127.0.0.1:3306:3306
