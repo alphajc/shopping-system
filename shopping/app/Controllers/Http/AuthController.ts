@@ -5,7 +5,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class AuthController {
-  public async register ({ request, auth, response }: HttpContextContract) {
+  public async register({ request, auth, response }: HttpContextContract) {
     /**
      * Validate user details
      */
@@ -13,9 +13,7 @@ export default class AuthController {
       username: schema.string({ trim: true }, [
         rules.unique({ table: 'users', column: 'username' }),
       ]),
-      password: schema.string({ trim: true }, [
-        rules.confirmed(),
-      ])
+      password: schema.string({ trim: true }, [rules.confirmed()]),
     })
 
     const userDetails = await request.validate({
@@ -33,15 +31,14 @@ export default class AuthController {
     await auth.login(user)
     response.json(auth)
   }
-  public async login ({ auth, request, response }: HttpContextContract) {
+  public async login({ auth, request, response }: HttpContextContract) {
     const username = request.input('username')
     const password = request.input('password')
     const rememberUser = !!request.input('remember_me')
-    
+
     response.json(await auth.attempt(username, password, rememberUser))
   }
-  public async logout ({ auth, response }: HttpContextContract) {
-    
+  public async logout({ auth, response }: HttpContextContract) {
     response.send(await auth.logout())
   }
 }

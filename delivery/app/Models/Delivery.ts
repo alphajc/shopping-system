@@ -18,7 +18,7 @@ export default class Delivery extends BaseModel {
   public username: string
 
   @column()
-  public detail: string 
+  public detail: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

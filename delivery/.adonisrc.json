@@ -18,18 +18,9 @@
     "./start/kernel",
     {
       "file": "./start/redis",
-      "environment": [
-        "web"
-      ]
+      "environment": ["web"]
     }
   ],
-  "providers": [
-    "./providers/AppProvider",
-    "@adonisjs/core",
-    "@adonisjs/lucid",
-    "@adonisjs/redis"
-  ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "providers": ["./providers/AppProvider", "@adonisjs/core", "@adonisjs/lucid", "@adonisjs/redis"],
+  "aceProviders": ["@adonisjs/repl"]
 }

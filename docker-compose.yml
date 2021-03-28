@@ -16,3 +16,23 @@ services:
     - ./assets/data/mysql:/var/lib/mysql
     ports:
     - 127.0.0.1:3306:3306
+  delivery:
+    build: ./delivery
+    image: delivery
+    environment:
+    - PORT=3332
+    - HOST=0.0.0.0
+    - NODE_ENV=development
+    - APP_KEY=XquabEMKf30EACiCPpoeIkC3dMy6-689
+    - DB_CONNECTION=mysql
+    - MYSQL_HOST=mysql
+    - MYSQL_PORT=3306
+    - MYSQL_USER=lucid
+    - MYSQL_PASSWORD=qwer1234
+    - MYSQL_DB_NAME=delivery
+    - REDIS_CONNECTION=local
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+    depends_on:
+    - mysql
+    - redis

@@ -24,12 +24,10 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/healthz', async ({ response }) => {
   const isLive = await HealthCheck.isLive()
 
-  return isLive
-    ? response.status(200).send({})
-    : response.status(400).send({})
+  return isLive ? response.status(200).send({}) : response.status(400).send({})
 })
 
-Route.get('/', async ({logger, auth}) => {
+Route.get('/', async ({ logger, auth }) => {
   logger.info(`uid: ${auth.user?.id}`)
   return { hello: 'world' }
 }).middleware('auth')
@@ -38,4 +36,5 @@ Route.post('register', 'AuthController.register')
 Route.post('login', 'AuthController.login')
 Route.post('logout', 'AuthController.logout').middleware('auth')
 
+Route.get('order/:id?', 'OrdersController.index').middleware('auth')
 Route.post('order', 'OrdersController.order').middleware('auth')

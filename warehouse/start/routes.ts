@@ -24,9 +24,7 @@ import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 Route.get('/healthz', async ({ response }) => {
   const isLive = await HealthCheck.isLive()
 
-  return isLive
-    ? response.status(200).send({})
-    : response.status(400).send({})
+  return isLive ? response.status(200).send({}) : response.status(400).send({})
 })
 
 Route.get('/', async () => {
