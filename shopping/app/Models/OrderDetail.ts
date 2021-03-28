@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import OrderForm from './OrderForm'
-import { BelongsTo } from '@ioc:Adonis/Lucid/Relations'
 
 export default class OrderDetail extends BaseModel {
   @column({ isPrimary: true })
@@ -9,6 +8,9 @@ export default class OrderDetail extends BaseModel {
 
   @column()
   public productId: number
+
+  @column()
+  public orderFormId: number
 
   @belongsTo(() => OrderForm)
   public orderForm: BelongsTo<typeof OrderForm>

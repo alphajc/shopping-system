@@ -19,7 +19,18 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
+
+Route.get('/healthz', async ({ response }) => {
+  const isLive = await HealthCheck.isLive()
+
+  return isLive
+    ? response.status(200).send({})
+    : response.status(400).send({})
+})
 
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+Route.get('/delivery/:order_id', 'DeliveriesController.index')

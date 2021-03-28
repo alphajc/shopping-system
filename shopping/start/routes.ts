@@ -35,7 +35,7 @@ Route.get('/', async ({logger, auth}) => {
 }).middleware('auth')
 
 Route.post('register', 'AuthController.register')
-
 Route.post('login', 'AuthController.login')
-
 Route.post('logout', 'AuthController.logout').middleware('auth')
+
+Route.post('order', 'OrdersController.order').middleware('auth')

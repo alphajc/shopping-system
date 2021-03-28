@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
-import { BelongsTo } from '@ioc:Adonis/Lucid/Relations'
 
 export default class Cart extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public userId: number
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>

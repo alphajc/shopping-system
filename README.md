@@ -111,8 +111,13 @@
 
     POST /api/order
     {
-        "product": "xxx",
-        "count": 1
+        "product": [{
+            "id": 1,
+            "count": 1
+        }],
+        "carts": [],
+        "address": "xxxx",
+        "mobile": "12345677890"
     }
 
 ##### 加入购物车
@@ -136,13 +141,6 @@
 *请求*
 
     DELETE /api/cart
-    ["id1", "id2"]
-
-##### 购物车下单
-
-*请求*
-
-    POST /api/order/cart
     ["id1", "id2"]
 
 #### warehouse
