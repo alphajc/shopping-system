@@ -4,8 +4,6 @@ services:
     image: redis
     volumes:
     - ./assets/data/redis:/data
-    ports:
-    - 127.0.0.1:6379:6379
   mysql:
     image: mysql:5.7.33
     environment:
@@ -14,15 +12,13 @@ services:
     - MYSQL_PASSWORD=qwer1234
     volumes:
     - ./assets/data/mysql:/var/lib/mysql
-    ports:
-    - 127.0.0.1:3306:3306
   delivery:
     build: ./delivery
     image: delivery
     environment:
-    - PORT=3332
+    - PORT=80
     - HOST=0.0.0.0
-    - NODE_ENV=development
+    - NODE_ENV=production
     - APP_KEY=XquabEMKf30EACiCPpoeIkC3dMy6-689
     - DB_CONNECTION=mysql
     - MYSQL_HOST=mysql
@@ -33,6 +29,55 @@ services:
     - REDIS_CONNECTION=local
     - REDIS_HOST=redis
     - REDIS_PORT=6379
+    ports:
+    - 127.0.0.1:3332:80
+    depends_on:
+    - mysql
+    - redis
+  shopping:
+    build: ./shopping
+    image: shopping
+    environment:
+    - PORT=80
+    - HOST=0.0.0.0
+    - NODE_ENV=production
+    - APP_KEY=XJSHSJze7w-W_FWplfKxDL4ykRwq0AHR
+    - DB_CONNECTION=mysql
+    - MYSQL_HOST=mysql
+    - MYSQL_PORT=3306
+    - MYSQL_USER=lucid
+    - MYSQL_PASSWORD=qwer1234
+    - MYSQL_DB_NAME=shopping
+    - REDIS_CONNECTION=local
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+    - SESSION_DRIVER=redis
+    - SERVICE_WAREHOUSE=http://warehouse
+    ports:
+    - 127.0.0.1:3333:80
+    depends_on:
+    - mysql
+    - redis
+    - warehouse
+  warehouse:
+    build: ./warehouse
+    image: warehouse
+    environment:
+    - PORT=80
+    - HOST=0.0.0.0
+    - NODE_ENV=production
+    - APP_KEY=y7-t9eQ6-1TXu3NVFbUL0niyGB6z_i-l
+    - DB_CONNECTION=mysql
+    - MYSQL_HOST=mysql
+    - MYSQL_PORT=3306
+    - MYSQL_USER=lucid
+    - MYSQL_PASSWORD=qwer1234
+    - MYSQL_DB_NAME=warehouse
+    - REDIS_CONNECTION=local
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+    ports:
+    - 127.0.0.1:3334:80
     depends_on:
     - mysql
     - redis
