@@ -30,7 +30,7 @@ export default createStore({
     AUTH_REQUEST ({commit}, user) {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit('AUTH_REQUEST')
-        axios({url: 'http://shopping.local/api/login', data: user, method: 'POST' })
+        axios({url: '/api/login', data: user, method: 'POST' })
           .then(resp => {
             const token = resp.data.token;
             localStorage.setItem('user-token', token); // store the token in localstorage
@@ -48,7 +48,7 @@ export default createStore({
     AUTH_LOGOUT ({commit}) {
       return new Promise((resolve, reject) => {
         commit('AUTH_LOGOUT');
-        axios({url: 'http://shopping.local/api/logout', method: 'POST' })
+        axios({url: '/api/logout', method: 'POST' })
           .then(() => {
             localStorage.removeItem('user-token'); // clear your user's token from localstorage
             delete axios.defaults.headers.common['Authorization'];

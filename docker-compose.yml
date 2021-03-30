@@ -14,8 +14,8 @@ services:
     - MYSQL_PASSWORD=qwer1234
     volumes:
     - ./assets/data/mysql:/var/lib/mysql
-    ports:
-    - 127.0.0.1:3306:3306
+    # ports:
+    # - 127.0.0.1:3306:3306
   delivery:
     build: ./delivery
     image: delivery
@@ -34,8 +34,8 @@ services:
     - REDIS_CONNECTION=local
     - REDIS_HOST=redis
     - REDIS_PORT=6379
-    ports:
-    - 127.0.0.1:3332:80
+    # ports:
+    # - 127.0.0.1:3332:80
     depends_on:
     - mysql
     - redis
@@ -84,8 +84,17 @@ services:
     - REDIS_CONNECTION=local
     - REDIS_HOST=redis
     - REDIS_PORT=6379
-    ports:
-    - 127.0.0.1:3334:80
+    # ports:
+    # - 127.0.0.1:3334:80
     depends_on:
     - mysql
     - redis
+  portal:
+    build: ./portal
+    image: portal
+    depends_on:
+    - shopping
+    ports:
+    - 127.0.0.1:5267:8080
+    volumes:
+    - ./config/portal/shopping.conf:/etc/nginx/conf.d/shopping.conf:ro

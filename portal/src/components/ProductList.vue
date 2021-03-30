@@ -71,7 +71,7 @@ export default {
     };
   },
   created() {
-    this.axios.get("http://shopping.local/api/product").then(resp => {
+    this.axios.get("/api/product").then(resp => {
       this.product = this.allProduct = resp.data;
     });
   },

@@ -101,7 +101,7 @@ export default {
       }
     },
     register() {
-      this.axios.post('http://shopping.local/api/register', this.registerForm).then(res => {
+      this.axios.post('/api/register', this.registerForm).then(res => {
         console.log(res.data);
         this.$router.push('/login');
       });
