@@ -13,6 +13,7 @@
 
 ```sh
 make start
+open http://localhost:5267
 ```
 
 ## 日志采集
