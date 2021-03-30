@@ -36,10 +36,10 @@ Route.post('/register', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.post('/logout', 'AuthController.logout').middleware('auth')
 
-Route.get('/order/:id?', 'OrdersController.index').middleware('auth')
-Route.post('/order', 'OrdersController.order').middleware('auth')
+Route.get('/orders/:id?', 'OrdersController.index').middleware('auth')
+Route.post('/orders', 'OrdersController.order').middleware('auth')
 
-Route.get('/delivery/:order_id', 'DeliveriesController.index').middleware('auth')
+Route.get('/deliveries/:order_id', 'DeliveriesController.index').middleware('auth')
 
 Route.get('/product/:id?', 'ProductsController.index').middleware('auth')
 Route.post('/product', 'ProductsController.online').middleware('auth')
