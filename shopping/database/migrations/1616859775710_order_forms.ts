@@ -7,6 +7,7 @@ export default class OrderForms extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.integer('user_id').unsigned().notNullable()
+      table.string('recipient').notNullable()
       table.float('price').notNullable()
       table.string('address', 255)
       table.enu('pay_stat', ['paid', 'no_pay']).defaultTo('no_pay')

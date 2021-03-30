@@ -40,6 +40,7 @@ export default class OrdersController {
           })
         ),
         carts: schema.array.optional().members(schema.number()),
+        recipient: schema.string({ trim: true }),
         address: schema.string({ trim: true }),
         mobile: schema.string({ trim: true }, [rules.mobile()]),
       }),
@@ -56,6 +57,7 @@ export default class OrdersController {
     }
     orderForm.address = orderRequest.address
     orderForm.mobile = orderRequest.mobile
+    orderForm.recipient = orderRequest.recipient
     orderForm.price = 0
     const orderFormRes = await orderForm.save()
 
@@ -88,7 +90,7 @@ export default class OrdersController {
      */
     const invoice: Invoice = {
       orderFormId: orderFormRes.id,
-      username: auth.user?.username || '',
+      username: orderFormRes.recipient,
       address: orderFormRes.address,
       mobile: orderFormRes.mobile,
     }

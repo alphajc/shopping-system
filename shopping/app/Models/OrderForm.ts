@@ -9,6 +9,9 @@ export default class OrderForm extends BaseModel {
   @column()
   public userId: number
 
+  @column()
+  public recipient: string
+
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 
