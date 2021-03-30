@@ -109,7 +109,7 @@
 
 *请求*
 
-    POST /api/order
+    POST /api/orders
     {
         "product": [{
             "id": 1,
@@ -120,11 +120,17 @@
         "mobile": "12345677890"
     }
 
+##### 查询订单
+
+**请求**
+
+    GET /api/orders/:id?
+
 ##### 加入购物车
 
 *请求*
 
-    POST /api/cart
+    POST /api/carts
     {
         "product": "xxx",
         "count": 1
@@ -134,13 +140,13 @@
 
 *请求*
 
-    GET /api/cart
+    GET /api/carts
 
 ##### 清理购物车
 
 *请求*
 
-    DELETE /api/cart
+    DELETE /api/carts
     ["id1", "id2"]
 
 #### warehouse
@@ -183,7 +189,7 @@
 
 *请求*
 
-    GET /api/delivery/:order_id
+    GET /api/deliveries/:order_id
 
 ### 异步任务
 
