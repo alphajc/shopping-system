@@ -33,13 +33,13 @@ export default class OrdersController {
      */
     const orderRequest = await request.validate({
       schema: schema.create({
-        product: schema.array().members(
+        product: schema.array.optional().members(
           schema.object().members({
             id: schema.number(),
             count: schema.number([rules.range(0, 99999)]),
           })
         ),
-        carts: schema.array().members(schema.number()),
+        carts: schema.array.optional().members(schema.number()),
         address: schema.string({ trim: true }),
         mobile: schema.string({ trim: true }, [rules.mobile()]),
       }),
@@ -60,21 +60,23 @@ export default class OrdersController {
     const orderFormRes = await orderForm.save()
 
     const shipments: [Shipment?] = []
-    await Promise.all(
-      orderRequest.product.map(async (p) => {
-        const orderDetail = new OrderDetail()
-        orderDetail.orderFormId = orderFormRes.id
-        orderDetail.productId = p.id
-        orderDetail.count = p.count
-        await orderDetail.save()
-        const res = await axios.get(`${warehouse_addr}/product/${p.id}`)
-        const product: Product = res.data
-        logger.debug(`warehouse response: ${JSON.stringify(product)}`)
-        orderFormRes.price += product.price * p.count
-        logger.info(`product:${product.name} count:${p.count}`)
-        shipments.push({ product: p.id, count: p.count })
-      })
-    )
+    if (orderRequest.product) {
+      await Promise.all(
+        orderRequest.product.map(async (p) => {
+          const orderDetail = new OrderDetail()
+          orderDetail.orderFormId = orderFormRes.id
+          orderDetail.productId = p.id
+          orderDetail.count = p.count
+          await orderDetail.save()
+          const res = await axios.get(`${warehouse_addr}/product/${p.id}`)
+          const product: Product = res.data
+          logger.debug(`warehouse response: ${JSON.stringify(product)}`)
+          orderFormRes.price += product.price * p.count
+          logger.info(`product:${product.name} count:${p.count}`)
+          shipments.push({ product: p.id, count: p.count })
+        })
+      )
+    }
 
     /**
      * 推送给仓库系统
