@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+const Home = () => import('@/views/Home')
+const ProductList = () => import('@/views/shopping/ProductList')
+const OrderList = () => import('@/views/shopping/OrderList')
 import store from '../store' // your vuex store
 
 const routes = [
@@ -7,8 +9,20 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    children: [
+      {
+        path: '',
+        name: 'ProductList',
+        component: ProductList,
+        props: { msg: '欢迎来到网上购物中心' }
+      },
+      {
+        path: 'order-list',
+        name: 'OrderList',
+        component: OrderList
+      }
+    ],
     beforeEnter: (to, from, next) => {
-      console.log(store.getters.status)
       if (store.getters.isAuthenticated) {
         return next()
       }

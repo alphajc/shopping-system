@@ -3,7 +3,7 @@
     <template #header>
       <section class="card-header">
         <el-button class="button" type="text">加入购物车</el-button>
-        <el-button class="button" type="text" @click="$emit('place-an-order', {id, count})">下单</el-button
+        <el-button class="button" type="text" @click="$emit('place-an-order', {id, count, name})">下单</el-button
         >
       </section>
     </template>
