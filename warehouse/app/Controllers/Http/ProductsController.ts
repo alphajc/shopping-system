@@ -4,6 +4,8 @@ import Product from 'App/Models/Product'
 
 export default class ProductsController {
   public async index({ logger, request, params, response }: HttpContextContract) {
+    logger.debug('ProductsController.index')
+    logger.debug(request.completeUrl(true))
     if (params.id) {
       const product = await Product.findOrFail(params.id)
 
@@ -19,13 +21,25 @@ export default class ProductsController {
     }
   }
 
+  public async adminIndex({ logger, params, response }: HttpContextContract) {
+    logger.debug('ProductsController.adminIndex')
+    logger.info(`uid:${params.uid}`)
+    const product = await (!!params.uid
+      ? Product.query().where('user_id', params.uid)
+      : Product.query())
+
+    response.json(product)
+  }
+
   /**
    * 上架货品
    */
-  public async online({ request, response }: HttpContextContract) {
-    const productDetail = await request.validate({
+  public async online({ logger, request, response }: HttpContextContract) {
+    logger.debug('ProductsController.online')
+    const productPayload = await request.validate({
       schema: schema.create({
         name: schema.string(),
+        userId: schema.number(),
         description: schema.string(),
         price: schema.number(),
         count: schema.number(),
@@ -33,10 +47,11 @@ export default class ProductsController {
     })
 
     const product = new Product()
-    product.name = productDetail.name
-    product.description = productDetail.description
-    product.price = productDetail.price
-    product.count = productDetail.count
+    product.name = productPayload.name
+    product.description = productPayload.description
+    product.price = productPayload.price
+    product.count = productPayload.count
+    product.userId = productPayload.userId
 
     response.json(await product.save())
   }
@@ -44,7 +59,8 @@ export default class ProductsController {
   /**
    * 下架货品
    */
-  public async offline({ params, response }: HttpContextContract) {
+  public async offline({ logger, params, response }: HttpContextContract) {
+    logger.debug('ProductsController.offline')
     const product = await Product.findOrFail(params.id)
     response.json(await product.delete())
   }

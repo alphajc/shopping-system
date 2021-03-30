@@ -4,6 +4,7 @@ import Product from 'App/Models/Product'
 export const ProductFactory = Factory.define(Product, ({ faker }) => {
   return {
     name: faker.commerce.productName(),
+    userId: 1,
     description: faker.commerce.productDescription(),
     price: Number(faker.commerce.price()),
     count: Math.floor(Math.random() * 1000),

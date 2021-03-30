@@ -1,9 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Delivery from 'App/Models/Delivery'
+import axios from 'axios'
+import { delivery_addr } from 'Config/service'
 
 export default class DeliveriesController {
   public async index({ params, response }: HttpContextContract) {
-    const deliveries = await Delivery.query().where('order_form_id', params.order_id)
-    response.json(deliveries)
+    const resp = await axios.get(`${delivery_addr}/delivery/${params.order_id}`)
+    response.json(resp.data)
   }
 }

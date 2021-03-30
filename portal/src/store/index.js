@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import axios from 'axios'
+import { createStore } from 'vuex';
+import axios from 'axios';
 
 export default createStore({
   state: {
@@ -34,7 +34,7 @@ export default createStore({
           .then(resp => {
             const token = resp.data.token;
             localStorage.setItem('user-token', token); // store the token in localstorage
-            axios.defaults.headers.common['Authorization'] = token;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             commit('AUTH_SUCCESS', token);
             resolve(resp);
           })

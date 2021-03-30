@@ -6,6 +6,7 @@ export default class Products extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
+      table.integer('user_id').notNullable()
       table.string('name', 255).notNullable()
       table.text('description')
       table.float('price').notNullable()

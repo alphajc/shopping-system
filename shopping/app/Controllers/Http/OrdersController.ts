@@ -4,7 +4,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import OrderForm from 'App/Models/OrderForm'
 import OrderDetail from 'App/Models/OrderDetail'
 import axios from 'axios'
-import { warehouse } from 'Config/service'
+import { warehouse_addr } from 'Config/service'
 
 interface Shipment {
   product: number
@@ -67,7 +67,7 @@ export default class OrdersController {
         orderDetail.productId = p.id
         orderDetail.count = p.count
         await orderDetail.save()
-        const res = await axios.get(`${warehouse}/product/${p.id}`)
+        const res = await axios.get(`${warehouse_addr}/product/${p.id}`)
         const product: Product = res.data
         logger.debug(`warehouse response: ${JSON.stringify(product)}`)
         orderFormRes.price += product.price * p.count
@@ -102,7 +102,7 @@ export default class OrdersController {
         const orderForms = await OrderForm.query().where('user_id', auth.user?.id)
         response.json(orderForms)
       }
-      
+
     }
   }
 }

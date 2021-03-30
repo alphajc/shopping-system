@@ -34,3 +34,4 @@ Route.get('/', async () => {
 Route.get('/product/:id?', 'ProductsController.index')
 Route.post('/product', 'ProductsController.online')
 Route.delete('/product/:id', 'ProductsController.offline')
+Route.get('/admin/:uid/product', 'ProductsController.adminIdex')

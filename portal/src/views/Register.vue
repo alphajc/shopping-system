@@ -54,7 +54,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('registerForm')"
+              <el-button type="primary" @click="register"
                 >提交</el-button
               >
               <el-button @click="resetForm('registerForm')">重置</el-button>
@@ -100,14 +100,10 @@ export default {
         callback();
       }
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+    register() {
+      this.axios.post('http://shopping.local/api/register', this.registerForm).then(res => {
+        console.log(res.data);
+        this.$router.push('/login');
       });
     },
     resetForm(formName) {

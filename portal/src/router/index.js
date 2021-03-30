@@ -1,11 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store' // your vuex store
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      console.log(store.getters.status)
+      if (store.getters.isAuthenticated) {
+        return next()
+      }
+      next('/login')
+    }
   },
   {
     path: '/about',

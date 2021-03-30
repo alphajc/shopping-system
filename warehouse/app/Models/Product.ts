@@ -9,6 +9,9 @@ export default class Product extends BaseModel {
   public name: string
 
   @column()
+  public userId: number
+
+  @column()
   public description: string
 
   @column()
