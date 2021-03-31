@@ -17,11 +17,8 @@ services:
     # ports:
     # - 127.0.0.1:3306:3306
   delivery:
-    build:
-      context: ./delivery
-      cache_from:
-      - alphajc/delivery
-    image: delivery
+    # build: ./delivery
+    image: alphajc/delivery
     environment:
     - PORT=80
     - HOST=0.0.0.0
@@ -43,11 +40,8 @@ services:
     - mysql
     - redis
   shopping:
-    build:
-      context: ./shopping
-      cache_from:
-      - alphajc/shopping
-    image: shopping
+    # build: ./shopping
+    image: alphajc/shopping
     environment:
     - PORT=80
     - HOST=0.0.0.0
@@ -73,11 +67,8 @@ services:
     - redis
     - warehouse
   warehouse:
-    build:
-      context: ./warehouse
-      cache_from:
-      - alphajc/warehouse
-    image: warehouse
+    # build: ./warehouse
+    image: alphajc/warehouse
     environment:
     - PORT=80
     - HOST=0.0.0.0
@@ -99,11 +90,8 @@ services:
     - mysql
     - redis
   portal:
-    build:
-      context: ./portal
-      cache_from:
-      - alphajc/portal
-    image: portal
+    # build: ./portal
+    image: alphajc/portal
     depends_on:
     - shopping
     ports:
