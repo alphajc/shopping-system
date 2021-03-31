@@ -43,9 +43,7 @@
                 >登录</el-button
               >
               <el-button @click="resetForm('loginForm')">重置</el-button>
-              <el-row
-                >还没有账号？快来<el-link href="/register" type="primary"
-                  >注册</el-link
+              <el-row>还没有账号？快来<router-link to="/register">注册</router-link
                 >一个吧!</el-row
               >
             </el-form-item>
