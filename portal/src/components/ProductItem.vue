@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <section class="card-header">
-        <el-button class="button" type="text">加入购物车</el-button>
+        <el-button class="button" disabled type="text" @click="$emit('add-to-cart', {id, count, name})">加入购物车</el-button>
         <el-button class="button" type="text" @click="$emit('place-an-order', {id, count, name})">下单</el-button
         >
       </section>
@@ -30,7 +30,7 @@
 <script>
 export default {
   name: "product-item",
-  emits: ["place-an-order"],
+  emits: ["add-to-cart", "place-an-order"],
   props: {
     id: Number,
     name: String,
