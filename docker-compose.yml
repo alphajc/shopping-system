@@ -83,8 +83,8 @@ services:
     - SESSION_DRIVER=redis
     - SERVICE_WAREHOUSE=http://warehouse
     - SERVICE_DELIVERY=http://delivery
-    ports:
-    - 127.0.0.1:3333:80
+    # ports:
+    # - 127.0.0.1:3333:80
     depends_on:
     - mysql
     - redis
