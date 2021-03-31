@@ -10,9 +10,9 @@
     >
       <el-menu-item index="/">购物大厅</el-menu-item>
       <el-menu-item index="/carts" disabled>购物车</el-menu-item>
-      <el-menu-item index="/order-list">订单管理</el-menu-item>
+      <el-menu-item index="/order-list">我的订单</el-menu-item>
     </el-menu>
-    <el-button class="seller" type="warning" plain><i class="el-icon-upload el-icon--right"/>卖家中心</el-button>
+    <el-button @click="$router.push('/myshop')" class="seller" type="warning" plain><i class="el-icon-upload el-icon--right"/>卖家中心</el-button>
   </header>
   <router-view />
 </template>
@@ -28,7 +28,6 @@ export default {
   },
   created() {
     this.activeIndex = this.$route.fullPath;
-    console.log(this.$route);
   },
 };
 </script>
