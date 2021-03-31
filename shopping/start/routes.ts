@@ -44,4 +44,4 @@ Route.get('/deliveries/:order_id', 'DeliveriesController.index').middleware('aut
 Route.get('/product/:id?', 'ProductsController.index').middleware('auth')
 Route.post('/product', 'ProductsController.online').middleware('auth')
 Route.delete('/product/:id', 'ProductsController.offline').middleware('auth')
-Route.get('/admin/product', 'ProductsController.adminIdex').middleware('auth')
+Route.get('/admin/product', 'ProductsController.adminIndex').middleware('auth')

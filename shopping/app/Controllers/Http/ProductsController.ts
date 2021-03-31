@@ -51,9 +51,13 @@ export default class ProductsController {
   /**
    * 下架货品
    */
-  public async offline({ logger, params, response }: HttpContextContract) {
+  public async offline({ logger, auth, params, response }: HttpContextContract) {
     logger.debug('ProductsController.offline')
-    const resp = await axios.delete(`${warehouse_addr}/prodcut/${params.id}`)
-    response.json(resp.data)
+    const resp = await axios.get(`${warehouse_addr}/product/${params.id}`)
+    if (auth.user && resp.data.user_id === auth.user.id) {
+      await axios.delete(`${warehouse_addr}/product/${params.id}`)
+    } else {
+      response.status(403).send('Forbidden!')
+    }
   }
 }
