@@ -42,6 +42,10 @@
 
 ![](../assets/images/system.png)
 
+### 时序图
+
+![](../assets/images/sequence.png)
+
 ### 表结构设计
 
 ![](../assets/images/database.png)
@@ -169,7 +173,7 @@
 
 ##### 查看自己上架的商品
 
-    GET /admin/product
+    GET /api/admin/product
 
 ##### 浏览
 
