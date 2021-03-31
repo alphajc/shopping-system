@@ -158,7 +158,7 @@ export default {
 
 <style>
 body {
-  width: 1024px;
+  width: 1280px;
   margin: 0 auto;
 }
 
