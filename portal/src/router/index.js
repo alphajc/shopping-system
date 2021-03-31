@@ -1,25 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
-const Home = () => import('@/views/Home')
-const ProductList = () => import('@/views/shopping/ProductList')
-const OrderList = () => import('@/views/shopping/OrderList')
 import store from '../store' // your vuex store
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import('@/views/Home'),
     children: [
       {
         path: '',
         name: 'ProductList',
-        component: ProductList,
+        component: () => import('@/views/shopping/ProductList'),
         props: { msg: '欢迎来到网上购物中心' }
       },
       {
         path: 'order-list',
         name: 'OrderList',
-        component: OrderList
+        component: () => import('@/views/shopping/OrderList')
       }
     ],
     beforeEnter: (to, from, next) => {
@@ -30,22 +27,14 @@ const routes = [
     }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
     path: '/register',
     name: '注册',
-    component: () => import('../views/Register.vue')
+    component: () => import('@/views/Register.vue')
   },
   {
     path: '/login',
     name: '登录',
-    component: () => import('../views/Login.vue')
+    component: () => import('@/views/Login.vue')
   }
 ]
 
