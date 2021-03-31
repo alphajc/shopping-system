@@ -50,7 +50,7 @@
 <style scoped>
 
 .main {
-  margin: 10px 10% 0;
+  margin: 10px auto;
 }
 
 </style>

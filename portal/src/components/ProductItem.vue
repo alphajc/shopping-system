@@ -50,7 +50,7 @@ export default {
 }
 
 .box-card {
-  width: 30em;
+  width: 25em;
   margin: 1em 0;
 }
 

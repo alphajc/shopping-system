@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="banner">
     <img alt="logo" src="../assets/logo.png" object-fit="cover" />
   </div>
   <header>
@@ -34,15 +34,20 @@ export default {
 </script>
 
 <style scope>
-header {
-  width: 1440px;
-  margin: 0 auto;
-}
 
 header .seller {
   float: right;
   top: -3.3rem;
   position: relative;
   margin: 0 10px;
+}
+
+body {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+.banner img {
+  max-width: 100%
 }
 </style>
