@@ -14,10 +14,13 @@ services:
     - MYSQL_PASSWORD=qwer1234
     volumes:
     - ./assets/data/mysql:/var/lib/mysql
-    ports:
-    - 127.0.0.1:3306:3306
+    # ports:
+    # - 127.0.0.1:3306:3306
   delivery:
-    build: ./delivery
+    build:
+      context: ./delivery
+      cache_from:
+      - alphajc/delivery
     image: delivery
     environment:
     - PORT=80
@@ -40,7 +43,10 @@ services:
     - mysql
     - redis
   shopping:
-    build: ./shopping
+    build:
+      context: ./shopping
+      cache_from:
+      - alphajc/shopping
     image: shopping
     environment:
     - PORT=80
@@ -60,14 +66,17 @@ services:
     - SESSION_DRIVER=redis
     - SERVICE_WAREHOUSE=http://warehouse
     - SERVICE_DELIVERY=http://delivery
-    ports:
-    - 127.0.0.1:3333:80
+    # ports:
+    # - 127.0.0.1:3333:80
     depends_on:
     - mysql
     - redis
     - warehouse
   warehouse:
-    build: ./warehouse
+    build:
+      context: ./warehouse
+      cache_from:
+      - alphajc/warehouse
     image: warehouse
     environment:
     - PORT=80
@@ -90,7 +99,10 @@ services:
     - mysql
     - redis
   portal:
-    build: ./portal
+    build:
+      context: ./portal
+      cache_from:
+      - alphajc/portal
     image: portal
     depends_on:
     - shopping
