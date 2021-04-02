@@ -143,9 +143,7 @@ export default {
             recipient: this.orderForm.recipient
           };
 
-          this.axios.post("/api/orders", payload).then(resp => {
-            console.log(resp);
-            console.log("下单成功！");
+          this.axios.post("/api/orders", payload).then(() => {
             ElMessage.success({
               message: "恭喜你，已成功购买了这件商品！",
               type: "success"

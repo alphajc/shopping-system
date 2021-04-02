@@ -82,12 +82,8 @@ import { ElMessage } from "element-plus";
 
 export default {
   methods: {
-    handleClick(row) {
-      console.log(row);
-    },
     getMyProduct() {
       this.axios.get("/api/admin/product").then(resp => {
-        console.log(resp.data);
         this.tableData = resp.data;
       });
     },

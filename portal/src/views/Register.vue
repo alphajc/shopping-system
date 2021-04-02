@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     validatePass(rule, value, callback) {
-      console.log("validatePass");
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
@@ -91,7 +90,6 @@ export default {
       }
     },
     validatePass2(rule, value, callback) {
-      console.log("validatePass2");
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value !== this.ruleForm.password) {
@@ -101,8 +99,7 @@ export default {
       }
     },
     register() {
-      this.axios.post('/api/register', this.registerForm).then(res => {
-        console.log(res.data);
+      this.axios.post('/api/register', this.registerForm).then(() => {
         this.$router.push('/login');
       });
     },
