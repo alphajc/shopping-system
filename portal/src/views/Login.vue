@@ -35,6 +35,7 @@
               <el-input
                 type="password"
                 v-model="loginForm.password"
+                @keyup.enter="submitForm('loginForm')"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
@@ -56,6 +57,8 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+
 export default {
   data() {
     return {
@@ -74,8 +77,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch('AUTH_REQUEST', this.loginForm).then(() => {
+          this.$store.dispatch('AUTH_REQUEST', this.loginForm)
+          .then(() => {
             this.$router.push("/");
+          }).catch(() => {
+            ElMessage.error('认证失败，请检查你的账号密码！');
           });
         } else {
           console.log("error submit!!");

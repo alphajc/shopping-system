@@ -50,6 +50,7 @@
               <el-input
                 type="password"
                 v-model="registerForm.password_confirmation"
+                @keyup.enter="register"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
