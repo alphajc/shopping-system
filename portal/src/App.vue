@@ -2,6 +2,28 @@
   <router-view />
 </template>
 
+<script>
+export default {
+  created() {
+    this.axios.interceptors.response.use((response) => {
+      // Any status code that lie within the range of 2xx cause this function to trigger
+      // Do something with response data
+      return response;
+    }, (error) => {
+      // Any status codes that falls outside the range of 2xx cause this function to trigger
+      // Do something with response error
+      if (error.request.status === 401 && error.config && !error.config.__isRetryRequest) {
+        // if you ever get an unauthorized, logout the user
+          this.$store.dispatch("AUTH_LOGOUT");
+        // you can also redirect to /login if needed !
+          this.$router.push("/login");
+        }
+      return Promise.reject(error);
+    });
+  },
+};
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

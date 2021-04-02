@@ -46,20 +46,11 @@ export default createStore({
       });
     },
     AUTH_LOGOUT ({commit}) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         commit('AUTH_LOGOUT');
-        axios({url: '/api/logout', method: 'POST' })
-          .then(() => {
-            localStorage.removeItem('user-token'); // clear your user's token from localstorage
-            delete axios.defaults.headers.common['Authorization'];
-            resolve();
-          })
-        .catch(err => {
-          commit('AUTH_ERROR', err);
-          localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
-          delete axios.defaults.headers.common['Authorization'];
-          reject(err);
-        });
+        localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
+        delete axios.defaults.headers.common['Authorization'];
+        resolve()
       });
     }
   },
