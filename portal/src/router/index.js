@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store' // your vuex store
+import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store'; // your vuex store
 
 const routes = [
   {
@@ -41,11 +41,11 @@ const routes = [
     name: '登录',
     component: () => import('@/views/Login.vue')
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;

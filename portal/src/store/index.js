@@ -42,8 +42,8 @@ export default createStore({
           commit('AUTH_ERROR', err);
           localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
           reject(err);
-        })
-      })
+        });
+      });
     },
     AUTH_LOGOUT ({commit}) {
       return new Promise((resolve, reject) => {
@@ -59,8 +59,8 @@ export default createStore({
           localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
           delete axios.defaults.headers.common['Authorization'];
           reject(err);
-        })
-      })
+        });
+      });
     }
   },
   modules: {

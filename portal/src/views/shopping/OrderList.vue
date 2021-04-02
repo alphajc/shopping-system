@@ -44,7 +44,7 @@
           this.tableData = resp.data
         });
       },
-    }
+    };
 </script>
 
 <style scoped>
