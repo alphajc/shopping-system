@@ -12,8 +12,12 @@
       <el-menu-item index="/carts" disabled>购物车</el-menu-item>
       <el-menu-item index="/order-list">我的订单</el-menu-item>
     </el-menu>
-    <el-button @click="$router.push('/myshop')" class="seller" type="warning" plain><i class="el-icon-upload el-icon--right"/>卖家中心</el-button>
-  </header>
+    <section class="seller">
+      <router-link to="/myshop"><i class="el-icon-help el-icon--right"/>卖家中心</router-link>
+      <el-divider direction="vertical"></el-divider>
+      <el-link @click="logOut" type="warning" plain><i class="el-icon-s-promotion el-icon--left"/>退出登录</el-link>
+    </section>
+      </header>
   <router-view />
 </template>
 
@@ -29,6 +33,14 @@ export default {
   created() {
     this.activeIndex = this.$route.fullPath;
   },
+  methods: {
+    logOut() {
+      console.log('logout')
+      this.axios.post('/api/logout').then(() => {
+        this.$router.push('/login');
+      });
+    }
+  }
 };
 </script>
 
@@ -36,7 +48,8 @@ export default {
 
 header .seller {
   float: right;
-  top: -3.3rem;
+  top: -2.8rem;
+  font-size: 14px;
   position: relative;
   margin: 0 10px;
 }
