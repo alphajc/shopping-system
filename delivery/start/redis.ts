@@ -26,6 +26,7 @@ Redis.subscribe('order:delivery', async (message: string) => {
   delivery.username = invoice.username
   delivery.address = invoice.address
   delivery.mobile = invoice.mobile
+  delivery.detail = '正在出库'
   await delivery.save()
   Logger.info(`订单 ${delivery.orderFormId} 正在准备发货`)
 })
