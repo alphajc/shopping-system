@@ -3,38 +3,32 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import Product from 'App/Models/Product'
 
 export default class ProductsController {
-  public async index({ logger, request, params, response }: HttpContextContract) {
+  public async index({ logger, request, params }: HttpContextContract) {
     logger.debug('ProductsController.index')
     logger.debug(request.completeUrl(true))
     if (params.id) {
-      const product = await Product.findOrFail(params.id)
-
-      response.json(product.serialize())
+      return await Product.findOrFail(params.id)
     } else {
       const { q } = request.get()
       logger.info(`search: ${q}`)
-      const product = await (!!q
+      return (!!q
         ? Product.query().where('name', 'like', `%${q}%`)
         : Product.query())
-
-      response.json(product)
     }
   }
 
-  public async adminIndex({ logger, params, response }: HttpContextContract) {
+  public async adminIndex({ logger, params }: HttpContextContract) {
     logger.debug('ProductsController.adminIndex')
     logger.info(`uid:${params.uid}`)
-    const product = await (!!params.uid
+    return await (!!params.uid
       ? Product.query().where('user_id', params.uid)
       : Product.query())
-
-    response.json(product)
   }
 
   /**
    * 上架货品
    */
-  public async online({ logger, request, response }: HttpContextContract) {
+  public async online({ logger, request }: HttpContextContract) {
     logger.debug('ProductsController.online')
     const productPayload = await request.validate({
       schema: schema.create({
@@ -53,15 +47,15 @@ export default class ProductsController {
     product.count = productPayload.count
     product.userId = productPayload.userId
 
-    response.json(await product.save())
+    return await product.save()
   }
 
   /**
    * 下架货品
    */
-  public async offline({ logger, params, response }: HttpContextContract) {
+  public async offline({ logger, params }: HttpContextContract) {
     logger.debug('ProductsController.offline')
     const product = await Product.findOrFail(params.id)
-    response.json(await product.delete())
+    return await product.delete()
   }
 }

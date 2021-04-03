@@ -27,7 +27,7 @@ interface Product {
 }
 
 export default class OrdersController {
-  public async order({ logger, request, auth, response }: HttpContextContract) {
+  public async order({ logger, request, auth }: HttpContextContract) {
     /**
      * 检查参数有效性
      */
@@ -96,17 +96,15 @@ export default class OrdersController {
     }
     Redis.publish('order:delivery', JSON.stringify(invoice))
 
-    response.json(await orderFormRes.save())
+    return await orderFormRes.save()
   }
-  public async index({ params, auth, response }: HttpContextContract) {
+  public async index({ params, auth }: HttpContextContract) {
     if (auth.user) {
       if (params.id) {
-        response.json(await OrderForm.findOrFail(params.id))
+        return await OrderForm.findOrFail(params.id)
       } else {
-        const orderForms = await OrderForm.query().where('user_id', auth.user?.id)
-        response.json(orderForms)
+        return await OrderForm.query().where('user_id', auth.user?.id)
       }
-
     }
   }
 }
