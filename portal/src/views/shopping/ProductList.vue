@@ -18,6 +18,7 @@
   <teleport to="body">
     <el-dialog
       :title="orderForm.name"
+      destroy-on-close
       v-model="dialogVisible"
       width="30%"
       :before-close="handleClose"
