@@ -5,6 +5,7 @@ import OrderForm from 'App/Models/OrderForm'
 import OrderDetail from 'App/Models/OrderDetail'
 import axios from 'axios'
 import { warehouse_addr } from 'Config/service'
+import AlreadyPaidException from 'App/Exceptions/AlreadyPaidException'
 
 interface Shipment {
   product: number
@@ -52,7 +53,6 @@ export default class OrdersController {
      */
     const orderForm = new OrderForm()
     if (auth.user) {
-      // orderForm.related('user').associate(auth.user)
       orderForm.userId = auth.user.id
     }
     orderForm.address = orderRequest.address
@@ -61,7 +61,6 @@ export default class OrdersController {
     orderForm.price = 0
     const orderFormRes = await orderForm.save()
 
-    const shipments: [Shipment?] = []
     if (orderRequest.product) {
       await Promise.all(
         orderRequest.product.map(async (p) => {
@@ -75,29 +74,50 @@ export default class OrdersController {
           logger.debug(`warehouse response: ${JSON.stringify(product)}`)
           orderFormRes.price += product.price * p.count
           logger.info(`product:${product.name} count:${p.count}`)
-          shipments.push({ product: p.id, count: p.count })
         })
       )
     }
 
+    return await orderFormRes.save()
+  }
+
+  public async confirmPaid({params}: HttpContextContract) {
+
+    // Todo: 检查是否支付成功
+    // 更改支付状态
+    const orderForm = await OrderForm.findOrFail(params.id)
+    if(orderForm.pay_stat) {
+      throw new AlreadyPaidException(`订单 ${params.id} 已支付！`)
+    }
+    orderForm.pay_stat = true
+    orderForm.save()
+
     /**
-     * 推送给仓库系统
+     * 异步推送给仓库系统
      */
+    const orderDetails = await OrderDetail.query().where('order_form_id', params.id)
+    const shipments: [Shipment?] = []
+    await Promise.all(
+      orderDetails.map(async (orderDetail) => {
+        shipments.push({ product: orderDetail.productId, count: orderDetail.count })
+      })
+    )
     Redis.publish('order:warehouse', JSON.stringify(shipments))
 
     /**
-     * 推送给物流系统
+     * 异步推送给物流系统
      */
     const invoice: Invoice = {
-      orderFormId: orderFormRes.id,
-      username: orderFormRes.recipient,
-      address: orderFormRes.address,
-      mobile: orderFormRes.mobile,
+      orderFormId: orderForm.id,
+      username: orderForm.recipient,
+      address: orderForm.address,
+      mobile: orderForm.mobile,
     }
     Redis.publish('order:delivery', JSON.stringify(invoice))
 
-    return await orderFormRes.save()
+    return orderForm
   }
+
   public async index({ params, auth }: HttpContextContract) {
     if (auth.user) {
       if (params.id) {

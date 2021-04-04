@@ -24,6 +24,9 @@ export default class OrderForm extends BaseModel {
   @column()
   public mobile: string
 
+  @column()
+  public pay_stat: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

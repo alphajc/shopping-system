@@ -10,7 +10,7 @@ export default class OrderForms extends BaseSchema {
       table.string('recipient').notNullable()
       table.float('price').notNullable()
       table.string('address', 255)
-      table.enu('pay_stat', ['paid', 'no_pay']).defaultTo('no_pay')
+      table.boolean('pay_stat').defaultTo(false)
       table.string('mobile')
       table.foreign('user_id').references('users.id')
       table.timestamps(true, true)

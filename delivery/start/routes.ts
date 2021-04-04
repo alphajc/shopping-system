@@ -31,4 +31,4 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.get('/delivery/:order_id', 'DeliveriesController.index')
+Route.get('/orders/:order_id/deliveries', 'DeliveriesController.index')
