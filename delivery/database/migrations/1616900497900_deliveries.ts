@@ -10,7 +10,7 @@ export default class Deliveries extends BaseSchema {
       table.string('username', 255).notNullable()
       table.string('address', 255).notNullable()
       table.string('mobile', 15).notNullable()
-      table.text('detail').defaultTo('正在出库')
+      table.json('detail')
       table.timestamps(true, true)
     })
   }
