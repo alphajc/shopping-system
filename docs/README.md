@@ -40,15 +40,15 @@
 
 ### 功能模块示意图
 
-![](../assets/images/system.png)
+![](images/system.png)
 
 ### 时序图
 
-![](../assets/images/sequence.png)
+![](images/sequence.png)
 
 ### 表结构设计
 
-![](../assets/images/database.png)
+![](images/database.png)
 
 ### 接口设计
 
@@ -125,7 +125,7 @@
     }
 
 
-#### 支付回调
+##### 支付回调
 
 **请求**
 

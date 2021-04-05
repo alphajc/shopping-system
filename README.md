@@ -1,6 +1,6 @@
 # Shopping System
 
-[设计文档](docs/design.md)
+[设计文档](https://mydream.ink/shopping-system/)
 
 ## 项目目录
 
