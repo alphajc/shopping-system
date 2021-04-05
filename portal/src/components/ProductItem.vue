@@ -20,7 +20,7 @@
         <section class="product-desc">
           <small>{{ description }}</small>
         </section>
-        <section class="product-price">${{ price }}</section>
+        <section class="product-price">¥{{ price }}</section>
         <section class="product-count">库存：{{ count }}</section>
       </el-col>
     </el-row>

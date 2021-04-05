@@ -9,7 +9,7 @@
     <el-table-column prop="name" label="名称" width="150"> </el-table-column>
     <el-table-column prop="description" label="描述" width="600">
     </el-table-column>
-    <el-table-column prop="price" label="单价" width="120"> </el-table-column>
+    <el-table-column prop="price" label="单价（元）" width="120"> </el-table-column>
     <el-table-column prop="count" label="库存量" width="120"> </el-table-column>
     <el-table-column
       prop="created_at"
@@ -61,10 +61,9 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="单价" prop="price">
-          <el-input
-            v-model.float="productForm.price"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model.float="productForm.price" autocomplete="off">
+            <template #suffix>元</template>
+          </el-input>
         </el-form-item>
       </el-form>
       <template #footer>

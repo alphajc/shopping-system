@@ -4,7 +4,7 @@
       <el-table :data="notPayOrders" class="main">
         <el-table-column prop="id" label="订单编号" width="180">
         </el-table-column>
-        <el-table-column prop="price" label="总金额" width="180">
+        <el-table-column prop="price" label="总金额（元）" width="180">
         </el-table-column>
         <el-table-column prop="recipient" label="收件人" width="180">
         </el-table-column>
@@ -22,7 +22,7 @@
       <el-table :data="paidOrders" class="main">
         <el-table-column prop="id" label="订单编号" width="180">
         </el-table-column>
-        <el-table-column prop="price" label="总金额" width="180">
+        <el-table-column prop="price" label="总金额（元）" width="180">
         </el-table-column>
         <el-table-column prop="recipient" label="收件人" width="180">
         </el-table-column>
