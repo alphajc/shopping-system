@@ -14,9 +14,14 @@ const routes = [
         props: { msg: '欢迎来到网上购物中心' }
       },
       {
-        path: 'order-list',
+        path: 'orders',
         name: 'OrderList',
         component: () => import('@/views/shopping/OrderList')
+      },
+      {
+        path: 'carts',
+        name: 'CartList',
+        component: () => import('@/views/shopping/CartList')
       }
     ],
     beforeEnter: (to, from, next) => {

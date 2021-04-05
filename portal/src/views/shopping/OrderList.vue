@@ -53,7 +53,8 @@
 </template>
 
 <script>
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
+
 export default {
   data() {
     return {
@@ -92,10 +93,10 @@ export default {
   },
   computed: {
     paidOrders() {
-      return this.orders.filter((order) => order.pay_stat)
+      return this.orders.filter((order) => order.pay_stat);
     },
     notPayOrders() {
-      return this.orders.filter((order) => !order.pay_stat)
+      return this.orders.filter((order) => !order.pay_stat);
     }
   }
 };

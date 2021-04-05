@@ -9,8 +9,8 @@
       mode="horizontal"
     >
       <el-menu-item index="/">购物大厅</el-menu-item>
-      <el-menu-item index="/carts" disabled>购物车</el-menu-item>
-      <el-menu-item index="/order-list">我的订单</el-menu-item>
+      <el-menu-item index="/carts">购物车</el-menu-item>
+      <el-menu-item index="/orders">我的订单</el-menu-item>
     </el-menu>
     <section class="seller">
       <router-link to="/myshop"><i class="el-icon-help el-icon--right"/>卖家中心</router-link>

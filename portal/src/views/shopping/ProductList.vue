@@ -11,7 +11,8 @@
         v-for="item in productList"
         :key="item.id"
         v-bind="item"
-        @place-an-order="handelPlaceAnOrder"
+        @place-an-order="placeAnOrder"
+        @add-to-cart="addToCart"
       />
     </el-main>
   </el-container>
@@ -21,7 +22,6 @@
       destroy-on-close
       v-model="dialogVisible"
       width="30%"
-      :before-close="handleClose"
     >
     <el-steps :active="active" finish-status="success">
       <el-step title="确认订单"></el-step>
@@ -63,6 +63,30 @@
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="steps[active].ok">{{ steps[active].okTitle }}</el-button>
+      </span>
+    </template>
+    </el-dialog>
+  </teleport>
+  <teleport to="body">
+    <el-dialog
+      title="加入购物车"
+      destroy-on-close
+      v-model="cartDialogVisible"
+      width="30%"
+    >
+    <section class="cart-input">
+      <label for="cart-count">数量</label>
+      <el-input
+        type="number"
+        min="1"
+        id="cart-count"
+        :max="product.count"
+        v-model="cartCount" />
+    </section>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="cartDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="commitToCart">确认加入</el-button>
       </span>
     </template>
     </el-dialog>
@@ -123,11 +147,12 @@ export default {
         this.dialogVisible = false;
         this.active = 0;
       });
-    }
+    };
     return {
       q: "",
       productList: [],
       dialogVisible: false,
+      cartDialogVisible: false,
       active: 0,
       // 订单表单
       orderForm: {
@@ -138,6 +163,7 @@ export default {
         mobile: "",
         recipient: ""
       },
+      cartCount: 1,
       rules: {
         count: [
           { required: true, message: "请输入要购买的数量", trigger: "blur" },
@@ -158,9 +184,9 @@ export default {
         {okTitle: '下 单', ok: order},
         {okTitle: '去支付', ok: pay}
       ],
-      product: null,
+      product: {},
       // 生成的订单
-      order: null
+      order: {}
     };
   },
   created() {
@@ -181,7 +207,7 @@ export default {
     }
   },
   methods: {
-    handelPlaceAnOrder(product) {
+    placeAnOrder(product) {
       this.product = product;
       if (product.id !== this.orderForm.id) {
         this.orderForm.count = 1;
@@ -190,12 +216,24 @@ export default {
       this.orderForm.name = product.name;
       this.dialogVisible = true;
     },
-    handleClose(done) {
-      done();
+    addToCart(product) {
+      this.product = product;
+      this.cartDialogVisible = true;
     },
     getProduct() {
       this.axios.get("/api/product").then(resp => {
         this.productList = this.allProduct = resp.data;
+      });
+    },
+    commitToCart() {
+      this.axios.post("/api/carts", {product_id: this.product.id, count: this.cartCount}).then(resp => {
+        this.cartDialogVisible = false;
+        ElMessage.success({
+          message: `${resp.data.count} 件${this.product.name}已加入购物车！`,
+          type: "success"
+        });
+      }).catch(err => {
+        ElMessage.error(err);
       });
     }
   }
@@ -215,6 +253,19 @@ export default {
 
 .el-container {
   width: 100%;
+}
+
+.cart-input .el-input {
+  width: 120px;
+}
+
+.el-dialog label {
+  margin: auto 1rem;
+}
+
+.cart-input {
+  display: block;
+  text-align: center;
 }
 
 </style>
