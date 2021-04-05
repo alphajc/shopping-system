@@ -6,6 +6,8 @@ import OrderDetail from 'App/Models/OrderDetail'
 import axios from 'axios'
 import { warehouse_addr } from 'Config/service'
 import AlreadyPaidException from 'App/Exceptions/AlreadyPaidException'
+import Cart from 'App/Models/Cart'
+import NoValidProductException from 'App/Exceptions/NoValidProductException'
 
 interface Shipment {
   product: number
@@ -62,31 +64,58 @@ export default class OrdersController {
     const orderFormRes = await orderForm.save()
 
     if (orderRequest.product) {
-      await Promise.all(
-        orderRequest.product.map(async (p) => {
+      await Promise.all(orderRequest.product.map(async (p) => {
+        const orderDetail = new OrderDetail()
+        orderDetail.orderFormId = orderFormRes.id
+        orderDetail.productId = p.id
+        orderDetail.count = p.count
+        await orderDetail.save()
+        const res = await axios.get(`${warehouse_addr}/product/${p.id}`)
+        const product: Product = res.data
+        logger.debug(`warehouse response: ${JSON.stringify(product)}`)
+        orderFormRes.price += product.price * p.count
+        logger.info(`product:${product.name} count:${p.count}`)
+      }))
+    }
+
+    if (orderRequest.carts) {
+      const carts = await Cart.findMany(orderRequest.carts)
+      await Promise.all(carts.map(async (cart) => {
+        // 确认一下是自己的购物车
+        if (auth.user && auth.user.id === cart.userId) {
+          try {
+            const res = await axios.get(`${warehouse_addr}/product/${cart.id}`)
+            const product: Product = res.data
+            orderFormRes.price += product.price * cart.count
+            logger.debug(`product:<${product.name}> count:${cart.count}`)
+          } catch (error) {
+            logger.error(error)
+            return
+          }
+
           const orderDetail = new OrderDetail()
           orderDetail.orderFormId = orderFormRes.id
-          orderDetail.productId = p.id
-          orderDetail.count = p.count
+          orderDetail.productId = cart.productId
+          orderDetail.count = cart.count
           await orderDetail.save()
-          const res = await axios.get(`${warehouse_addr}/product/${p.id}`)
-          const product: Product = res.data
-          logger.debug(`warehouse response: ${JSON.stringify(product)}`)
-          orderFormRes.price += product.price * p.count
-          logger.info(`product:${product.name} count:${p.count}`)
-        })
-      )
+          await cart.delete()
+        }
+      }))
+    }
+
+    if (orderFormRes.price === 0) {
+      throw new NoValidProductException('订单中没有有效商品')
     }
 
     return await orderFormRes.save()
   }
 
-  public async confirmPaid({params}: HttpContextContract) {
+  public async confirmPaid({ params }: HttpContextContract) {
 
     // Todo: 检查是否支付成功
     // 更改支付状态
     const orderForm = await OrderForm.findOrFail(params.id)
-    if(orderForm.pay_stat) {
+    if (orderForm.pay_stat) {
       throw new AlreadyPaidException(`订单 ${params.id} 已支付！`)
     }
     orderForm.pay_stat = true
