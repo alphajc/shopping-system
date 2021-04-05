@@ -16,6 +16,10 @@ make start
 open http://localhost:5267
 ```
 
+## 使用
+
+https://v.youku.com/v_show/id_XNTEzMzIzNjQ4MA==.html
+
 ## 日志采集
 
 采集 nginx 访问日志，用于审计
