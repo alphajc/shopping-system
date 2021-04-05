@@ -124,6 +124,13 @@
         "mobile": "12345677890"
     }
 
+
+#### 支付回调
+
+**请求**
+
+    PATCH /api/orders/:order_id/payment
+
 ##### 查询订单
 
 **请求**
@@ -136,7 +143,7 @@
 
     POST /api/carts
     {
-        "product": "xxx",
+        "product_id": 1,
         "count": 1
     }
 
@@ -150,8 +157,7 @@
 
 *请求*
 
-    DELETE /api/carts
-    ["id1", "id2"]
+    DELETE /api/carts?ids=1,2
 
 #### warehouse
 
@@ -193,7 +199,7 @@
 
 *请求*
 
-    GET /api/deliveries/:order_id
+    GET /api/orders/:order_id/deliveries
 
 ### 异步任务
 
