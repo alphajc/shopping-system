@@ -35,10 +35,10 @@
       title="确定要从购物车中移除么？"
     >
       <template #reference>
-        <el-button type="danger" :disabled="!this.selectIds">删除</el-button>
+        <el-button type="danger" :disabled="this.selectIds.length === 0">删除</el-button>
       </template>
     </el-popconfirm>
-    <el-button @click="settlement" :disabled="!this.selectIds" type="primary">结算</el-button>
+    <el-button @click="settlement" :disabled="this.selectIds.length === 0" type="primary">结算</el-button>
   </div>
   <teleport to="body">
   <el-dialog
@@ -129,7 +129,7 @@ export default {
     };
     return {
       carts: [],
-      selectIds: '',
+      selectIds: [],
       rules: {
         address: [
           { required: true, message: "请输入收货地址", trigger: "blur" }
