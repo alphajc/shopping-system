@@ -1,12 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Cart from 'App/Models/Cart';
+import axios from 'axios';
+import { warehouse_addr } from 'Config/service';
 
 export default class CartsController {
   public async index({ auth }: HttpContextContract) {
     if (auth.user) {
       const carts = await Cart.query().where('user_id', auth.user.id)
-      return carts
+      const res = await Promise.all(carts.map(async (cart) => {
+        // 可加缓存
+        const resp = await axios.get(`${warehouse_addr}/product/${cart.productId}`)
+        return {...cart.serialize(), name: resp.data.name, price: resp.data.price}
+      }))
+      return res
     }
   }
 
