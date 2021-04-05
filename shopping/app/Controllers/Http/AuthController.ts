@@ -28,7 +28,7 @@ export default class AuthController {
     user.password = userDetails.password
     await user.save()
 
-    return await auth.login(user)
+    return "账号已创建"
   }
   public async login({ auth, request }: HttpContextContract) {
     const username = request.input('username')
